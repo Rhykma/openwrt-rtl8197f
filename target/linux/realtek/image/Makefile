@@ -273,6 +273,24 @@ define Device/humax_e3
 endef
 TARGET_DEVICES += humax_e3
 
+define Device/iptime_a604r
+  $(Device/RealtekDTS)
+  BLOCKSIZE := 64k
+  DEVICE_DTS := iptime-a604r
+  DEVICE_TITLE := ipTIME A604R
+  SUPPORTED_DEVICES := iptime,a604r
+  IMAGE_SIZE := 7936k
+  DEV_PROFILE := GWR1200AC
+  CMDLINE := console=ttyS0,38400
+  KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
+  CVIMG_KERNEL_BURN_ADDR := 0x30000
+  CVIMG_LOADER_START_ADDR := 0x80A00000
+  IMAGES := factory.bin sysupgrade.bin
+  IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
+  IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
+endef
+TARGET_DEVICES += iptime_a604r
+
 endif
 
 ifeq ($(SUBTARGET),rtl8196e)
